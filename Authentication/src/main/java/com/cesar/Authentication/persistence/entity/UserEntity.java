@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.persistence.entity;
+package com.cesar.Authentication.persistence.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +30,8 @@ public class UserEntity{
 	@JoinTable(name = "users_roles", 
 		joinColumns = @JoinColumn(name = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	Set<RoleEntity> roles = new HashSet<>();
+	Set<com.cesar.JwtServer.persistence.entity.RoleEntity> roles = new HashSet<>();
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private RefreshTokenEntity refreshToken;
+	private com.cesar.JwtServer.persistence.entity.RefreshTokenEntity refreshToken;
 }
