@@ -1,6 +1,5 @@
 package com.cesar.Product.controller;
 
-import com.cesar.Product.persistence.entity.ProductEntity;
 import com.cesar.Product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
