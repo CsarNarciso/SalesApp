@@ -1,6 +1,6 @@
 package com.cesar.Authentication.persistence.dto;
 
-public record LogInRequest(
+public record AuthRequest(
 	String username,
 	String password
 ){}

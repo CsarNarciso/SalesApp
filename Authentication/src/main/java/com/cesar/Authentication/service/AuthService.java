@@ -2,9 +2,7 @@ package com.cesar.Authentication.service;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cesar.Authentication.exception.NoAuthenticatedException;
-import com.cesar.Authentication.persistence.dto.LogInRequest;
-import com.cesar.Authentication.persistence.dto.SignUpRequest;
-import com.cesar.Authentication.persistence.dto.SignUpResponse;
+import com.cesar.Authentication.persistence.dto.AuthRequest;
 import com.cesar.Authentication.persistence.entity.AuthUserEntity;
 import com.cesar.Authentication.persistence.entity.JwtTokenType;
 import com.cesar.Authentication.persistence.entity.RefreshTokenEntity;
@@ -56,8 +54,19 @@ public class AuthService {
         this.TOKEN_COOKIE_EXPIRATION_TIME = TOKEN_COOKIE_EXPIRATION_TIME;
     }
 
+    public void signup(AuthRequest signupRequest){
 
-    public void login(LogInRequest loginRequest, HttpServletResponse res){
+        //Get user data
+        String username = signupRequest.username();
+        String password = signupRequest.password();
+
+        //Create and save new user in DB
+        RoleEntity userRole = authorityUtils.getUserRole();
+        AuthUserEntity user = authUserUtils.buildUser(username, password, Set.of(userRole));
+        userRepo.save(user);
+    }
+
+    public void login(AuthRequest loginRequest, HttpServletResponse res){
 
         String username = loginRequest.username();
         String password = loginRequest.password();
@@ -90,24 +99,6 @@ public class AuthService {
         res.addCookie(refreshCookie);
     }
 
-    public SignUpResponse signup(SignUpRequest signupRequest){
-
-        //Get user data
-        String username = signupRequest.username();
-        String password = signupRequest.password();
-
-        //Create and save new user in DB
-        RoleEntity userRole = authorityUtils.getUserRole();
-        AuthUserEntity user = authUserUtils.buildUser(username, password, Set.of(userRole));
-        user = userRepo.save(user);
-
-        return SignUpResponse
-                .builder()
-                .username(user.getUsername())
-                .created(true)
-                .build();
-    }
-
     public void refresh(HttpServletRequest req, HttpServletResponse res) {
 
         // Try to get request cookie with refresh token
@@ -136,7 +127,6 @@ public class AuthService {
         // Save refresh token for user in DB
         foundUser.setRefreshToken(new RefreshTokenEntity(refresh));
         AuthUserEntity updatedUser = userRepo.save(foundUser);
-        System.out.println("UPDATED USER -> " + updatedUser.getUsername());
 
         // Load tokens in cookies
         Cookie tokenCookie = new Cookie("token", token);
