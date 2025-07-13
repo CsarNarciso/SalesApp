@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.cesar.Authentication.exception.NoAuthenticatedException;
 import com.cesar.Authentication.persistence.entity.JwtTokenType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -84,7 +83,7 @@ public class JwtUtils{
 			return verifier.verify(token);
 			
 		} catch(JWTVerificationException ex){
-			throw new NoAuthenticatedException("Invalid token: " + ex.getMessage());
+			throw new JWTVerificationException("Invalid token: " + ex.getMessage(), ex.getCause());
 		}
 	}
 	

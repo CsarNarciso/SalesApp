@@ -1,9 +1,7 @@
 package com.cesar.Authentication.security;
 
-import com.cesar.Authentication.persistence.entity.PermissionEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,16 +15,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import com.cesar.Authentication.persistence.entity.RoleEnum;
 import com.cesar.Authentication.security.filter.JwtTokenValidator;
 import com.cesar.Authentication.service.UserDetailServiceImpl;
 import com.cesar.Authentication.util.JwtUtils;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+	private final JwtUtils jwtUtils;
+	private final HandlerExceptionResolver handlerExceptionResolver;
+
+	public SecurityConfig(JwtUtils jwtUtils, HandlerExceptionResolver handlerExceptionResolver) {
+		this.jwtUtils = jwtUtils;
+		this.handlerExceptionResolver = handlerExceptionResolver;
+	}
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +42,7 @@ public class SecurityConfig {
 					// For auth operations
 					request.anyRequest().permitAll();
 
-				}).addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class).build();
+				}).addFilterBefore(new JwtTokenValidator(jwtUtils, handlerExceptionResolver), BasicAuthenticationFilter.class).build();
 	}
 
 	@Bean
@@ -58,10 +63,4 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	public SecurityConfig(JwtUtils jwtUtils) {
-		this.jwtUtils = jwtUtils;
-	}
-
-	private final JwtUtils jwtUtils;
 }
