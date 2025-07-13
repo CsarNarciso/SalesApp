@@ -12,6 +12,7 @@ import com.cesar.Authentication.persistence.dto.LogInRequest;
 import com.cesar.Authentication.persistence.dto.SignUpRequest;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController{
 
 	private final AuthService authService;
