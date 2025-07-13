@@ -1,18 +1,18 @@
-package com.cesar.JwtServer.service;
+package com.cesar.Authentication.service;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.cesar.JwtServer.exception.NoAuthenticatedException;
-import com.cesar.JwtServer.persistence.entity.JwtTokenType;
-import com.cesar.JwtServer.persistence.entity.RefreshTokenEntity;
-import com.cesar.JwtServer.persistence.entity.RoleEntity;
-import com.cesar.JwtServer.persistence.entity.UserEntity;
-import com.cesar.JwtServer.persistence.repository.UserRepository;
-import com.cesar.JwtServer.presentation.dto.LogInRequest;
-import com.cesar.JwtServer.presentation.dto.SignUpRequest;
-import com.cesar.JwtServer.presentation.dto.SignUpResponse;
-import com.cesar.JwtServer.util.AuthorityUtils;
-import com.cesar.JwtServer.util.JwtUtils;
-import com.cesar.JwtServer.util.UserUtils;
+import com.cesar.Authentication.exception.NoAuthenticatedException;
+import com.cesar.Authentication.persistence.dto.LogInRequest;
+import com.cesar.Authentication.persistence.dto.SignUpRequest;
+import com.cesar.Authentication.persistence.dto.SignUpResponse;
+import com.cesar.Authentication.persistence.entity.AuthUserEntity;
+import com.cesar.Authentication.persistence.entity.JwtTokenType;
+import com.cesar.Authentication.persistence.entity.RefreshTokenEntity;
+import com.cesar.Authentication.persistence.entity.RoleEntity;
+import com.cesar.Authentication.persistence.repository.AuthUserRepository;
+import com.cesar.Authentication.util.AuthUserUtils;
+import com.cesar.Authentication.util.JwtUtils;
+import com.cesar.Authentication.util.AuthorityUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -33,23 +32,23 @@ import java.util.Set;
 public class AuthService {
 
     private final UserDetailServiceImpl userDetailService;
-    private final UserRepository userRepo;
-    private final UserService userService;
-    private final UserUtils userUtils;
+    private final AuthUserRepository userRepo;
+    private final AuthUserService userService;
     private final JwtUtils jwtUtils;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityUtils authorityUtils;
+    private final AuthUserUtils authUserUtils;
 
     private final int TOKEN_COOKIE_EXPIRATION_TIME;
 
-    public AuthService(UserDetailServiceImpl userDetailService, UserRepository userRepo,
-                       UserService userService, UserUtils userUtils, JwtUtils jwtUtils,
+    public AuthService(UserDetailServiceImpl userDetailService, AuthUserRepository userRepo,
+                       AuthUserService userService, AuthUserUtils authUserUtils, JwtUtils jwtUtils,
                        AuthorityUtils authorityUtils,
                        @Value("${jwt.cookie.expirationTime}") int TOKEN_COOKIE_EXPIRATION_TIME){
         this.userDetailService = userDetailService;
         this.userRepo = userRepo;
         this.userService = userService;
-        this.userUtils = userUtils;
+        this.authUserUtils = authUserUtils;
         this.jwtUtils = jwtUtils;
         this.authorityUtils = authorityUtils;
         this.passwordEncoder = new BCryptPasswordEncoder();
@@ -64,7 +63,7 @@ public class AuthService {
         String password = loginRequest.password();
 
         // Find user
-        UserEntity foundUser = userService.loadByUsername(username);
+        AuthUserEntity foundUser = userService.loadByUsername(username);
 
         // Authenticate
         Authentication auth = authenticateByUsernameAndPassword(foundUser, username, password);
@@ -99,7 +98,7 @@ public class AuthService {
 
         //Create and save new user in DB
         RoleEntity userRole = authorityUtils.getUserRole();
-        UserEntity user = userUtils.buildUser(username, password, Set.of(userRole));
+        AuthUserEntity user = authUserUtils.buildUser(username, password, Set.of(userRole));
         user = userRepo.save(user);
 
         return SignUpResponse
@@ -125,7 +124,7 @@ public class AuthService {
 
         // Find user
         String username = jwtUtils.extractUsername(decoded);
-        UserEntity foundUser = userService.loadByUsername(username);
+        AuthUserEntity foundUser = userService.loadByUsername(username);
 
         // Authenticate
         Authentication auth = authenticateByUserEntity(foundUser);
@@ -136,7 +135,7 @@ public class AuthService {
 
         // Save refresh token for user in DB
         foundUser.setRefreshToken(new RefreshTokenEntity(refresh));
-        UserEntity updatedUser = userRepo.save(foundUser);
+        AuthUserEntity updatedUser = userRepo.save(foundUser);
         System.out.println("UPDATED USER -> " + updatedUser.getUsername());
 
         // Load tokens in cookies
@@ -153,7 +152,7 @@ public class AuthService {
         res.addCookie(newRefreshCookie);
     }
 
-    private Authentication authenticateByUsernameAndPassword(UserEntity userEntity, String username, String password){
+    private Authentication authenticateByUsernameAndPassword(AuthUserEntity userEntity, String username, String password){
 
         UserDetails user = userDetailService.mapUserEntityToUserDetails(userEntity);
 
@@ -171,7 +170,7 @@ public class AuthService {
         throw new BadCredentialsException("Invalid username or password");
     }
 
-    private Authentication authenticateByUserEntity(UserEntity userEntity){
+    private Authentication authenticateByUserEntity(AuthUserEntity userEntity){
 
         //Authenticate user in Security context
         UserDetails user = userDetailService.mapUserEntityToUserDetails(userEntity);

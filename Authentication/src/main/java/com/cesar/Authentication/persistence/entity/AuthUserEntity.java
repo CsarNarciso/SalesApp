@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class UserEntity{
+public class AuthUserEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,8 @@ public class UserEntity{
 	@JoinTable(name = "users_roles", 
 		joinColumns = @JoinColumn(name = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	Set<com.cesar.JwtServer.persistence.entity.RoleEntity> roles = new HashSet<>();
+	Set<RoleEntity> roles = new HashSet<>();
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private com.cesar.JwtServer.persistence.entity.RefreshTokenEntity refreshToken;
+	private RefreshTokenEntity refreshToken;
 }

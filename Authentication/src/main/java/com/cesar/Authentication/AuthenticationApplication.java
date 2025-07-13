@@ -1,8 +1,7 @@
 package com.cesar.Authentication;
 
-import com.cesar.JwtServer.util.AuthorityUtils;
-import com.cesar.JwtServer.util.UserUtils;
-import org.modelmapper.ModelMapper;
+import com.cesar.Authentication.util.AuthUserUtils;
+import com.cesar.Authentication.util.AuthorityUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,11 +10,11 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class AuthenticationApplication {
 	
-	private final UserUtils userUtils;
+	private final AuthUserUtils authUserUtils;
 	private final AuthorityUtils authorityUtils;
 
-	public JwtServerApplication(UserUtils userUtils, AuthorityUtils authorityUtils) {
-		this.userUtils = userUtils;
+	public AuthenticationApplication(AuthUserUtils authUserUtils, AuthorityUtils authorityUtils) {
+		this.authUserUtils = authUserUtils;
 		this.authorityUtils = authorityUtils;
 	}
 
@@ -29,15 +28,10 @@ public class AuthenticationApplication {
 
 			// Pre-load database data
 			authorityUtils.initDefaultPermissionsAndRoles();
-			userUtils.initDefaultAdmins();
+			authUserUtils.initDefaultAdmins();
 
 			//Optional, preload test user (for dev testing)
-			userUtils.initTestUser();
+			authUserUtils.initTestUser();
 		};
-	}
-
-	@Bean
-	ModelMapper modelMapper() {
-		return new ModelMapper();
 	}
 }

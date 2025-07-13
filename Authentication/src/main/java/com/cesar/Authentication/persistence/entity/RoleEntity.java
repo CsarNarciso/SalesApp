@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.persistence.entity;
+package com.cesar.Authentication.persistence.entity;
 
 import java.util.Set;
 

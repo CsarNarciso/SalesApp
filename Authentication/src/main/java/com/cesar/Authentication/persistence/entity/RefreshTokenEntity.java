@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.persistence.entity;
+package com.cesar.Authentication.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,5 +23,5 @@ public class RefreshTokenEntity {
 
     @OneToOne
     @JoinColumn(name="user_id")
-    private UserEntity user;
+    private AuthUserEntity user;
 }

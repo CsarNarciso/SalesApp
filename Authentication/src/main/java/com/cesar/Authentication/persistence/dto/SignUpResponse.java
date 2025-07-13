@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.presentation.dto;
+package com.cesar.Authentication.persistence.dto;
 
 import lombok.Builder;
 import lombok.Data;

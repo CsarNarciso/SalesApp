@@ -5,7 +5,6 @@ spring:
     name: authentication-service
 
  #H2 Datasource
-spring:
   h2:
     console.enabled: true
   datasource:

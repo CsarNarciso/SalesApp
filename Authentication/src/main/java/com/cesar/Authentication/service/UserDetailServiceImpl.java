@@ -1,23 +1,23 @@
-package com.cesar.JwtServer.service;
+package com.cesar.Authentication.service;
 
 import java.util.HashSet;
 import java.util.Set;
-import com.cesar.JwtServer.persistence.repository.UserRepository;
+
+import com.cesar.Authentication.persistence.entity.AuthUserEntity;
+import com.cesar.Authentication.persistence.entity.RoleEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.cesar.JwtServer.persistence.entity.RoleEntity;
-import com.cesar.JwtServer.persistence.entity.UserEntity;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-	private final UserService userService;
+	private final AuthUserService userService;
 
-	public UserDetailServiceImpl(UserService userService){
+	public UserDetailServiceImpl(AuthUserService userService){
 		this.userService = userService;
 	}
 
@@ -25,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		UserEntity foundUser = userService.loadByUsername(username);
+		AuthUserEntity foundUser = userService.loadByUsername(username);
 
 		//Convert entity and authorities to Spring Security objects (UserDetails and GrantedAuthorities)
         return new User(
@@ -35,7 +35,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         );
 	}
 
-	public UserDetails mapUserEntityToUserDetails(UserEntity entity) {
+	public UserDetails mapUserEntityToUserDetails(AuthUserEntity entity) {
 
 		//Convert entity and authorities to Spring Security objects (UserDetails and GrantedAuthorities)
 		return new User(

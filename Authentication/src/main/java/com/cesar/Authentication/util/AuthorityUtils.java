@@ -1,20 +1,18 @@
-package com.cesar.JwtServer.util;
+package com.cesar.Authentication.util;
 
-import com.cesar.JwtServer.persistence.entity.PermissionEntity;
-import com.cesar.JwtServer.persistence.entity.PermissionEnum;
-import com.cesar.JwtServer.persistence.entity.RoleEntity;
-import com.cesar.JwtServer.persistence.entity.RoleEnum;
-import com.cesar.JwtServer.persistence.repository.RoleRepository;
+import com.cesar.Authentication.persistence.entity.PermissionEntity;
+import com.cesar.Authentication.persistence.entity.PermissionEnum;
+import com.cesar.Authentication.persistence.entity.RoleEntity;
+import com.cesar.Authentication.persistence.entity.RoleEnum;
+import com.cesar.Authentication.persistence.repository.RoleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 
-import static com.cesar.JwtServer.persistence.entity.PermissionEnum.*;
-import static com.cesar.JwtServer.persistence.entity.PermissionEnum.REFACTOR;
-import static com.cesar.JwtServer.persistence.entity.RoleEnum.ADMIN;
-import static com.cesar.JwtServer.persistence.entity.RoleEnum.USER;
+import static com.cesar.Authentication.persistence.entity.PermissionEnum.*;
+import static com.cesar.Authentication.persistence.entity.RoleEnum.*;
 
 @Component
 public class AuthorityUtils {
@@ -53,7 +51,7 @@ public class AuthorityUtils {
 
     public RoleEntity getUserRole(){
         if(userRole == null){
-            userRole = roleRepo.findByName(RoleEnum.USER)
+            userRole = roleRepo.findByName(USER)
                     .orElseThrow(() -> new RuntimeException("Default USER role not found"));
         }
         return userRole;

@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.exception;
+package com.cesar.Authentication.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

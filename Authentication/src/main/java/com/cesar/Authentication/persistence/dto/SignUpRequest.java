@@ -1,4 +1,4 @@
-package com.cesar.JwtServer.presentation.dto;
+package com.cesar.Authentication.persistence.dto;
 
 public record SignUpRequest(
 	String username,

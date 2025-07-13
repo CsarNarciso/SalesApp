@@ -1,6 +1,6 @@
-package com.cesar.JwtServer.security;
+package com.cesar.Authentication.security;
 
-import com.cesar.JwtServer.persistence.entity.PermissionEnum;
+import com.cesar.Authentication.persistence.entity.PermissionEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,10 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.cesar.JwtServer.persistence.entity.RoleEnum;
-import com.cesar.JwtServer.security.filter.JwtTokenValidator;
-import com.cesar.JwtServer.service.UserDetailServiceImpl;
-import com.cesar.JwtServer.util.JwtUtils;
+import com.cesar.Authentication.persistence.entity.RoleEnum;
+import com.cesar.Authentication.security.filter.JwtTokenValidator;
+import com.cesar.Authentication.service.UserDetailServiceImpl;
+import com.cesar.Authentication.util.JwtUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -33,17 +33,6 @@ public class SecurityConfig {
 		return http.csrf(c -> c.disable()).httpBasic(Customizer.withDefaults())
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(request -> {
-
-					// Resource operations
-					request.requestMatchers(HttpMethod.GET, "/resource/get").hasAuthority(PermissionEnum.READ.name());
-
-					request.requestMatchers(HttpMethod.POST, "/resource/post").hasAuthority(PermissionEnum.WRITE.name());
-
-					request.requestMatchers(HttpMethod.PUT, "/resource/put").hasRole(RoleEnum.ADMIN.name());
-
-					request.requestMatchers(HttpMethod.PATCH, "/resource/patch").hasRole(RoleEnum.ADMIN.name());
-
-					request.requestMatchers(HttpMethod.DELETE, "/resource/delete").hasRole(RoleEnum.ADMIN.name());
 
 					// For auth operations
 					request.anyRequest().permitAll();
