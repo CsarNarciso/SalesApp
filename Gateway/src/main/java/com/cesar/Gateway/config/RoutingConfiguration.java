@@ -26,6 +26,9 @@ public class RoutingConfiguration {
                 .path("/users/**")
                 .filters(f -> f.filter(authFilter))
                 .uri("http://localhost:9002"))
+            .route(r -> r
+                    .path("/products/**")
+                    .uri("http://localhost:9003"))
             .build();
     }
 }
