@@ -20,9 +20,12 @@ public class RoutingConfiguration {
         return builder.routes()
             // Forward requests to correct internal services
             .route(r -> r
-                    .path("/users/**")
-                    .filters(f -> f.filter(authFilter))
+                    .path("/auth/**")
                     .uri("http://localhost:9001"))
+            .route(r -> r
+                .path("/users/**")
+                .filters(f -> f.filter(authFilter))
+                .uri("http://localhost:9002"))
             .build();
     }
 }
