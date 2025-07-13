@@ -1,0 +1,11 @@
+services:
+  user:
+    build: .
+    ports:
+      - "8002:8002"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 500M
