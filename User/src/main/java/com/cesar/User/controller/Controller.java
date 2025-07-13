@@ -1,15 +1,10 @@
 package com.cesar.User.controller;
 
-import com.cesar.User.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.cesar.User.persistence.entity.UserEntity;
+import com.cesar.User.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import com.cesar.User.persistence.dto.LogInRequest;
-import com.cesar.User.persistence.dto.SignUpRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
