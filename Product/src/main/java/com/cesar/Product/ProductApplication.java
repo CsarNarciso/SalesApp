@@ -18,11 +18,11 @@ public class ProductApplication {
 	@Bean
 	public CommandLineRunner preloadData(ProductRepository repo) {
 		return args -> {
-			// Pre load test products
+			// Preload test products
 			List<ProductEntity> products = List.of(
 					ProductEntity.builder().name("Laptop").price(100.0F).build(),
 					ProductEntity.builder().name("Mountain bike").price(200.0F).build(),
-					ProductEntity.builder().name("Camping backpak").price(34.0F).build()
+					ProductEntity.builder().name("Camping backpack").price(34.0F).build()
 			);
 			repo.saveAll(products);
 		};
