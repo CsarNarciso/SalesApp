@@ -3,3 +3,27 @@ server:
 spring:
   application:
     name: authentication-service
+
+ #H2 Datasource
+spring:
+  h2:
+    console.enabled: true
+  datasource:
+    url: jdbc:h2:mem:db
+    username: me
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+#Jwt
+jwt:
+  issuer: ${spring.application.name}
+  access:
+    secret: sha256AccessSecretKey
+    expiresIn: 6000
+  refresh:
+    secret: sha256RefreshSecretKey
+    expiresIn: 86400000
+  cookie:
+    expirationTime: 604800000
