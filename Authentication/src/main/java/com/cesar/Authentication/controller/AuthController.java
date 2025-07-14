@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.cesar.Authentication.persistence.dto.AuthRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController{
@@ -30,7 +33,9 @@ public class AuthController{
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AuthRequest loginRequest, HttpServletResponse res){
 		authService.login(loginRequest, res);
-		return ResponseEntity.status(HttpStatus.OK).body("Successfully authenticated!");
+		Map<String, String> responseData = new HashMap<>();
+		responseData.put("message", "Successfully authenticated!");
+		return ResponseEntity.status(HttpStatus.OK).body(responseData);
 	}
 
 	@GetMapping("/check")

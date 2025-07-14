@@ -31,6 +31,7 @@ public class AuthFilter implements GatewayFilter {
         // Only check auth if existing token!
         HttpCookie tokenCookie = exchange.getRequest().getCookies().getFirst("token");
 
+        System.out.println("COOKIE " + tokenCookie);
         if (tokenCookie == null) {
             return onError(exchange);
         }
