@@ -27,7 +27,7 @@ Login to Postman Web and download the Postman collection in JSON format, then ju
 
 https://marco4-4703.postman.co/workspace/My-Workspace~081a7c47-d6b5-4834-808e-9ee9a9a06a0b/collection/39547010-10844b0f-8e9d-43cb-bc6e-a5accc797557?action=share&source=copy-link&creator=39547010
 
-Or just use directly the collection .json file already integrated in the root path of this repository.
+Or just use directly the collection .postman.json file already integrated in the root path of this repository.
 
 ### Or use the client!
 
@@ -35,4 +35,4 @@ The repository already includes a simple react client to consume some services, 
 
 Access the client in your browser through:
 
-localhost:3000
+http://localhost:3000
