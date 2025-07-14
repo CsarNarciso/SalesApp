@@ -16,7 +16,7 @@
    ```
 3. **Use Docker Compose to setup the whole project**
    ```bash 
-   docker compose up -d 
+   docker compose up
    ```
 
 ## Using The Application
