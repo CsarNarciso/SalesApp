@@ -1,6 +1,6 @@
 # Microservices Sales Application.
 
-![Old Final Chat Web System Design](https://github.com/CsarNarciso/Assets/blob/main/ChatWeb/OLD%20Final%20System%20Design.png)
+![Old Final Chat Web System Design](https://github.com/CsarNarciso/Assets/blob/main/SalesApp%20Architecture%20Diagram.drawio.png)
 
 ## Running The Application
 
