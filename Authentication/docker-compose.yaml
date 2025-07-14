@@ -1,8 +1,8 @@
 services:
-  user:
+  authentication:
     build: .
     ports:
-      - "9002:9002"
+      - "9001:9001"
     restart: always
     deploy:
       resources:

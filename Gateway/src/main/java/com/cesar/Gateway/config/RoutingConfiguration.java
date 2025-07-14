@@ -21,14 +21,14 @@ public class RoutingConfiguration {
             // Forward requests to correct internal services
             .route(r -> r
                     .path("/auth/**")
-                    .uri("http://localhost:9001"))
+                    .uri("http://authentication:9001"))
             .route(r -> r
                 .path("/users/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("http://localhost:9002"))
+                .uri("http://user:9002"))
             .route(r -> r
                     .path("/products/**")
-                    .uri("http://localhost:9003"))
+                    .uri("http://product:9003"))
             .build();
     }
 }

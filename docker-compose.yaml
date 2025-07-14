@@ -1,2 +1,6 @@
 include:
+  - Gateway/docker-compose.yaml
+  - Authentication/docker-compose.yaml
   - User/docker-compose.yaml
+  - Product/docker-compose.yaml
+  - SalesAppClient/docker-compose.yaml
