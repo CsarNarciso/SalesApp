@@ -1,0 +1,11 @@
+services:
+  client:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 500M
